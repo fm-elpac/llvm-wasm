@@ -1,0 +1,26 @@
+# 自动测试
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - run: deno fmt --check
+
+      # 安装依赖
+      # - run: |
+      #     sudo apt-get update && \
+      #     sudo apt-get -y install \
+      #       llvm lld \
+      #       binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu g++-aarch64-linux-gnu \
+      #       binutils-riscv64-linux-gnu gcc-riscv64-linux-gnu g++-riscv64-linux-gnu

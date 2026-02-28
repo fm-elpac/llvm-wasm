@@ -1,0 +1,35 @@
+{
+  "name": "@pm-spl/lld-linux-arm64-glibc",
+  "version": "0.1.0-a1",
+  "description": "(lld) Compiled LLVM binary for linux-arm64-glibc",
+  "keywords": [
+    "llvm",
+    "lld"
+  ],
+  "os": ["linux"],
+  "cpu": ["arm64"],
+  "libc": "glibc",
+
+  "files": [
+    "bin"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/lld-linux-arm64-glibc"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

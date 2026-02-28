@@ -1,0 +1,14 @@
+# 手动运行: 发布 npm 包 (入口)
+name: npm publish (llvm)
+
+on:
+  workflow_dispatch:
+    inputs:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # TODO

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>test run wasm</title>
+    <style type="text/css">
+      .log-box {
+        padding: 2em;
+      }
+
+      #log {
+        width: 60em;
+        min-height: 20em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="log-box">
+      <textarea id="log"></textarea>
+    </div>
+
+    <script>
+      const t_log = document.getElementById("log");
+
+      function log(text) {
+        console.log(text);
+
+        t_log.value += text + "\n";
+      }
+
+      async function test_wasm() {
+        log("test_wasm()");
+
+        const r = await fetch("./test.wasm");
+        const b = await r.arrayBuffer();
+        console.log(b);
+
+        const m = await WebAssembly.compile(b);
+
+        function p() {
+          const __linear_memory = new WebAssembly.Memory({
+            initial: 1024,
+          });
+
+          function print_i32(value) {
+            log("print_i32 " + value);
+          }
+
+          function print_utf8(offset, len) {
+            const b = new Uint8Array(
+              __linear_memory.buffer,
+              offset,
+              len,
+            );
+            const s = new TextDecoder("utf8").decode(b);
+
+            log("print_utf8 " + s);
+          }
+
+          return {
+            env: {
+              __linear_memory,
+            },
+            t1: {
+              print_i32,
+              print_utf8,
+            },
+          };
+        }
+
+        const i = new WebAssembly.Instance(m, p());
+        console.log(i);
+
+        i.exports.main();
+
+        log("test end");
+      }
+
+      test_wasm();
+    </script>
+  </body>
+</html>

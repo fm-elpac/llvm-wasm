@@ -1,0 +1,77 @@
+# 手动运行: 发布 npm 包 (二进制)
+name: npm publish (bin)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag"
+        required: true
+        default: "latest"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # 下载编译好的二进制包
+      - run: echo "U=https://github.com/fm-elpac/llvm-wasm/releases/download/${{ github.event.inputs.tag }}" >> "$GITHUB_ENV"
+      - run: curl -LO ${U}/llvm-android-arm64.zip
+      - run: curl -LO ${U}/llvm-linux-arm64-glibc.zip
+      - run: curl -LO ${U}/llvm-linux-riscv64-glibc.zip
+      - run: curl -LO ${U}/llvm-linux-x64-glibc.zip
+      - run: curl -LO ${U}/llvm-win32-x64.zip
+      #- run: curl -LO ${U}/llvm-wasm.zip
+
+      # 解压, 准备 npm 包文件
+      - run: |
+          unzip llvm-android-arm64.zip
+          unzip llvm-linux-arm64-glibc.zip
+          unzip llvm-linux-riscv64-glibc.zip
+          unzip llvm-linux-x64-glibc.zip
+          unzip llvm-win32-x64.zip
+      # unzip llvm-wasm.zip
+
+      - run: |
+          cp LICENSE npm/llc-android-arm64/
+          cp LICENSE npm/llc-linux-arm64-glibc/
+          cp LICENSE npm/llc-linux-riscv64-glibc/
+          cp LICENSE npm/llc-linux-x64-glibc/
+          cp LICENSE npm/llc-win32-x64/
+          cp LICENSE npm/lld-android-arm64/
+          cp LICENSE npm/lld-linux-arm64-glibc/
+          cp LICENSE npm/lld-linux-riscv64-glibc/
+          cp LICENSE npm/lld-linux-x64-glibc/
+          cp LICENSE npm/lld-win32-x64/
+          cp LICENSE npm/llvm/
+
+      - run: |
+          mkdir -p npm/llc-android-arm64/bin/
+          mkdir -p npm/llc-linux-arm64-glibc/bin/
+          mkdir -p npm/llc-linux-riscv64-glibc/bin/
+          mkdir -p npm/llc-linux-x64-glibc/bin/
+          mkdir -p npm/llc-win32-x64/bin/
+          mkdir -p npm/lld-android-arm64/bin/
+          mkdir -p npm/lld-linux-arm64-glibc/bin/
+          mkdir -p npm/lld-linux-riscv64-glibc/bin/
+          mkdir -p npm/lld-linux-x64-glibc/bin/
+          mkdir -p npm/lld-win32-x64/bin/
+
+      - run: |
+          cp llvm-android-arm64/llc npm/llc-android-arm64/bin/
+          cp llvm-linux-arm64-glibc/llc npm/llc-linux-arm64-glibc/bin/
+          cp llvm-linux-riscv64-glibc/llc npm/llc-linux-riscv64-glibc/bin/
+          cp llvm-linux-x64-glibc/llc npm/llc-linux-x64-glibc/bin/
+          cp llvm-win32-x64/llc npm/llc-win32-x64/bin/
+          cp llvm-android-arm64/lld npm/lld-android-arm64/bin/
+          cp llvm-linux-arm64-glibc/lld npm/lld-linux-arm64-glibc/bin/
+          cp llvm-linux-riscv64-glibc/lld npm/lld-linux-riscv64-glibc/bin/
+          cp llvm-linux-x64-glibc/lld npm/lld-linux-x64-glibc/bin/
+          cp llvm-win32-x64/lld npm/lld-win32-x64/bin/
+
+      # DEBUG
+      - run: find npm/
+
+      # 发布 npm
+      # TODO

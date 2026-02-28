@@ -1,0 +1,34 @@
+{
+  "name": "@pm-spl/lld-win32-x64",
+  "version": "0.1.0-a1",
+  "description": "(lld) Compiled LLVM binary for win32-x64",
+  "keywords": [
+    "llvm",
+    "lld"
+  ],
+  "os": ["win32"],
+  "cpu": ["x64"],
+
+  "files": [
+    "bin"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/lld-win32-x64"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

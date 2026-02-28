@@ -1,0 +1,40 @@
+# 手动运行: 编译 llvm emscripten
+name: build wasm (emscripten)
+
+on:
+  workflow_dispatch:
+    inputs:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # TODO
+      - run: cmake --version
+
+      # 安装依赖
+      - run: |
+          sudo apt-get update && \
+          sudo apt-get -y install \
+            llvm lld
+
+      # 安装 emscripten
+      - run: git clone https://github.com/emscripten-core/emsdk.git --depth=1 --single-branch
+      - run: cd emsdk && ./emsdk install latest
+      - run: cd emsdk && ./emsdk activate latest
+
+      # 下载代码并编译
+      - run: make clone-llvm
+
+      # llvm: emscripten
+      - run: |
+          source emsdk/emsdk_env.sh &&
+          emcc --version &&
+          make build-wasm
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: llvm-wasm
+          path: llvm-wasm

@@ -1,0 +1,32 @@
+# 手动运行: 编译 llvm linux-x64-glibc
+name: build linux-x64-glibc
+
+on:
+  workflow_dispatch:
+    inputs:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # 安装依赖
+      - run: |
+          sudo apt-get update && \
+          sudo apt-get -y install \
+            llvm lld
+
+      # 下载代码并编译
+      - run: make clone-llvm
+
+      # llvm: linux-x64-glibc
+      - run: make build-linux-x64
+
+      # 测试运行
+      - run: llvm-linux-x64-glibc/llc --version
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: llvm-linux-x64-glibc
+          path: llvm-linux-x64-glibc

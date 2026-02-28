@@ -1,0 +1,35 @@
+{
+  "name": "@pm-spl/llc-linux-x64-musl",
+  "version": "0.1.0-a1",
+  "description": "(llc) Compiled LLVM binary for linux-x64-musl",
+  "keywords": [
+    "llvm",
+    "llc"
+  ],
+  "os": ["linux"],
+  "cpu": ["x64"],
+  "libc": "musl",
+
+  "files": [
+    "bin"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/llc-linux-x64-musl"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

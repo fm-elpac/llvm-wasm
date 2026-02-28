@@ -1,0 +1,52 @@
+{
+  "name": "@pm-spl/llvm",
+  "version": "0.1.0-a1",
+  "description": "(llc, lld) Compiled LLVM binary for multi-platform",
+  "keywords": [
+    "llvm",
+    "llc",
+    "lld",
+    "wasm"
+  ],
+  "optionalDependencies": {
+    "llc-android-arm64": "0.1.0-a1",
+    "llc-linux-arm64-glibc": "0.1.0-a1",
+    "llc-linux-riscv64-glibc": "0.1.0-a1",
+    "llc-linux-x64-glibc": "0.1.0-a1",
+    "llc-win32-x64": "0.1.0-a1",
+    "lld-android-arm64": "0.1.0-a1",
+    "lld-linux-arm64-glibc": "0.1.0-a1",
+    "lld-linux-riscv64-glibc": "0.1.0-a1",
+    "lld-linux-x64-glibc": "0.1.0-a1",
+    "lld-win32-x64": "0.1.0-a1"
+  },
+  "devDependencies": {
+    "serve": "^14.2.5"
+  },
+
+  "files": [
+    "bin",
+    "example",
+    "lib.js"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+  "main": "lib.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/llvm"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}
