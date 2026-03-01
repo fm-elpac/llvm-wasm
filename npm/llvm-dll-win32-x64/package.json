@@ -1,0 +1,40 @@
+{
+  "name": "@pm-spl/llvm-dll-win32-x64",
+  "version": "0.1.0",
+  "description": "DLL (mingw-w64) to run LLVM (llc.exe lld.exe) for win32-x64",
+  "keywords": [
+    "llvm",
+    "llc",
+    "lld",
+    "dll",
+    "mingw"
+  ],
+  "os": ["win32"],
+  "cpu": ["x64"],
+
+  "files": [
+    "lib",
+    "lib.js"
+  ],
+  "main": "lib.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/llvm-dll-win32-x64"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "GPL-3.0",
+  "author": "secext2022",
+
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

@@ -1,0 +1,194 @@
+# 手动运行: 发布 npm 包 (二进制)
+name: npm publish (bin)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag"
+        required: true
+        default: "latest"
+
+permissions:
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "latest"
+          registry-url: "https://registry.npmjs.org"
+
+      # 下载编译好的二进制包
+      - run: echo "U=https://github.com/fm-elpac/llvm-wasm/releases/download/${{ github.event.inputs.tag }}" >> "$GITHUB_ENV"
+      - run: curl -LO ${U}/llvm-android-arm64.zip
+      - run: curl -LO ${U}/llvm-linux-arm64-glibc.zip
+      - run: curl -LO ${U}/llvm-linux-riscv64-glibc.zip
+      - run: curl -LO ${U}/llvm-linux-x64-glibc.zip
+      - run: curl -LO ${U}/llvm-win32-x64.zip
+      - run: curl -LO ${U}/llvm-wasm.zip
+      # mingw-w64
+      - run: curl -o mingw64.7z -L "https://github.com/niXman/mingw-builds-binaries/releases/download/15.2.0-rt_v13-rev1/x86_64-15.2.0-release-win32-seh-msvcrt-rt_v13-rev1.7z"
+
+      # 解压, 准备 npm 包文件
+      - run: |
+          unzip llvm-android-arm64.zip -d llvm-android-arm64
+          unzip llvm-linux-arm64-glibc.zip -d llvm-linux-arm64-glibc
+          unzip llvm-linux-riscv64-glibc.zip -d llvm-linux-riscv64-glibc
+          unzip llvm-linux-x64-glibc.zip -d llvm-linux-x64-glibc
+
+          7z x mingw64.7z
+          unzip llvm-win32-x64.zip -d llvm-win32-x64
+
+          #unzip llvm-wasm.zip -d llvm-wasm
+          unzip llvm-wasm.zip
+
+      - run: |
+          cp LICENSE npm/llc-android-arm64/
+          cp LICENSE npm/lld-android-arm64/
+
+          cp LICENSE npm/llc-linux-arm64-glibc/
+          cp LICENSE npm/llc-linux-riscv64-glibc/
+          cp LICENSE npm/llc-linux-x64-glibc/
+          cp LICENSE npm/lld-linux-arm64-glibc/
+          cp LICENSE npm/lld-linux-riscv64-glibc/
+          cp LICENSE npm/lld-linux-x64-glibc/
+
+          cp LICENSE npm/llc-win32-x64/
+          cp LICENSE npm/lld-win32-x64/
+
+          cp LICENSE npm/llc-wasm/
+          cp LICENSE npm/lld-wasm/
+
+      - run: |
+          mkdir -p npm/llc-android-arm64/bin/
+          mkdir -p npm/lld-android-arm64/bin/
+
+          mkdir -p npm/llc-linux-arm64-glibc/bin/
+          mkdir -p npm/llc-linux-riscv64-glibc/bin/
+          mkdir -p npm/llc-linux-x64-glibc/bin/
+          mkdir -p npm/lld-linux-arm64-glibc/bin/
+          mkdir -p npm/lld-linux-riscv64-glibc/bin/
+          mkdir -p npm/lld-linux-x64-glibc/bin/
+
+          mkdir -p npm/llvm-dll-win32-x64/lib/
+          mkdir -p npm/llc-win32-x64/lib/
+          mkdir -p npm/lld-win32-x64/lib/
+
+          mkdir -p npm/llc-wasm/bin/
+          mkdir -p npm/lld-wasm/bin/
+
+      - run: |
+          cp llvm-android-arm64/llc npm/llc-android-arm64/bin/
+          cp llvm-android-arm64/lld npm/lld-android-arm64/bin/
+
+          cp llvm-linux-arm64-glibc/llc npm/llc-linux-arm64-glibc/bin/
+          cp llvm-linux-riscv64-glibc/llc npm/llc-linux-riscv64-glibc/bin/
+          cp llvm-linux-x64-glibc/llc npm/llc-linux-x64-glibc/bin/
+          cp llvm-linux-arm64-glibc/lld npm/lld-linux-arm64-glibc/bin/
+          cp llvm-linux-riscv64-glibc/lld npm/lld-linux-riscv64-glibc/bin/
+          cp llvm-linux-x64-glibc/lld npm/lld-linux-x64-glibc/bin/
+
+          cp \
+            mingw64/bin/libgcc_s_seh-1.dll \
+            mingw64/bin/libwinpthread-1.dll \
+            mingw64/bin/libstdc++-6.dll \
+            npm/llvm-dll-win32-x64/lib/
+
+          cp llvm-win32-x64/llc.exe npm/llc-win32-x64/lib/
+          cp llvm-win32-x64/lld.exe npm/lld-win32-x64/lib/
+
+          cp llvm-wasm/llc.wasm \
+            llvm-wasm/llc.js \
+            npm/llc-wasm/bin/
+          cp llvm-wasm/lld.wasm \
+            llvm-wasm/lld.js \
+            llvm-wasm/ld.lld.js \
+            llvm-wasm/ld64.lld.js \
+            llvm-wasm/lld-link.js \
+            llvm-wasm/wasm-ld.js \
+            npm/lld-wasm/bin/
+
+      # DEBUG
+      - run: find npm/
+
+      # 发布 npm
+      - run: |
+          cd npm/llc-android-arm64 && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/lld-android-arm64 && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - run: |
+          cd npm/llc-linux-arm64-glibc && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/llc-linux-riscv64-glibc && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/llc-linux-x64-glibc && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/lld-linux-arm64-glibc && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/lld-linux-riscv64-glibc && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/lld-linux-x64-glibc && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - run: |
+          cd npm/llvm-dll-win32-x64 && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/llc-win32-x64 && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/lld-win32-x64 && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # wasm
+      - run: |
+          cd npm/llc-wasm && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          cd npm/lld-wasm && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # 测试包
+      # - run: |
+      #     cd npm/llc-android-arm64 && \
+      #     npm publish --tag beta --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

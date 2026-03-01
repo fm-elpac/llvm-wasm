@@ -1,0 +1,40 @@
+{
+  "name": "@pm-spl/llc-linux-x64-glibc",
+  "version": "0.1.0",
+  "description": "Compiled LLVM binary (llc) for linux-x64-glibc",
+  "keywords": [
+    "llvm",
+    "llc",
+    "linux"
+  ],
+  "os": ["linux"],
+  "cpu": ["x64"],
+  "libc": ["glibc"],
+
+  "files": [
+    "bin"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/llc-linux-x64-glibc"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

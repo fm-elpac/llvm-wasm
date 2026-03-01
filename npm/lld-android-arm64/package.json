@@ -1,0 +1,39 @@
+{
+  "name": "@pm-spl/lld-android-arm64",
+  "version": "0.1.0",
+  "description": "Compiled LLVM binary (lld) for android-arm64",
+  "keywords": [
+    "llvm",
+    "lld",
+    "android"
+  ],
+  "os": ["android"],
+  "cpu": ["arm64"],
+
+  "files": [
+    "bin"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/lld-android-arm64"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

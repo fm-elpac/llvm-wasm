@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+const lib = require("../lib.js");
+
+const a = process.argv.slice(2);
+//console.log(a);
+
+lib.run_bin(a);

@@ -1,0 +1,44 @@
+{
+  "name": "@pm-spl/llc-win32-x64",
+  "version": "0.1.0",
+  "description": "Compiled LLVM binary (llc) for win32-x64",
+  "keywords": [
+    "llvm",
+    "llc"
+  ],
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "dependencies": {
+    "@pm-spl/llvm-dll-win32-x64": "0.1.0"
+  },
+
+  "files": [
+    "bin",
+    "lib",
+    "lib.js"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+  "main": "lib.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/llc-win32-x64"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

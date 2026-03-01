@@ -1,0 +1,31 @@
+# 手动运行: 发布 npm 包 (入口)
+name: npm publish (llvm)
+
+on:
+  workflow_dispatch:
+    inputs:
+
+permissions:
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "latest"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: cp LICENSE npm/llvm/
+
+      # DEBUG
+      - run: find npm/llvm/
+
+      # 发布 npm
+      - run: |
+          cd npm/llvm && \
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

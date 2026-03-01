@@ -1,0 +1,38 @@
+{
+  "name": "@pm-spl/lld-wasm",
+  "version": "0.1.0",
+  "description": "LLVM binary (lld) compiled by emscripten (wasm)",
+  "keywords": [
+    "llvm",
+    "lld",
+    "wasm",
+    "emscripten"
+  ],
+
+  "files": [
+    "bin"
+  ],
+  "directories": {
+    "bin": "bin"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fm-elpac/llvm-wasm.git",
+    "directory": "npm/lld-wasm"
+  },
+  "bugs": {
+    "url": "https://github.com/fm-elpac/llvm-wasm/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "secext2022",
+
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": "> 24.0",
+    "pnpm": "^10.30.3"
+  }
+}

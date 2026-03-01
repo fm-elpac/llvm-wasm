@@ -1,0 +1,33 @@
+# 手动运行: 编译 llvm linux-riscv64-glibc
+name: build linux-riscv64-glibc
+
+on:
+  workflow_dispatch:
+    inputs:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # 安装依赖
+      - run: |
+          sudo apt-get update && \
+          sudo apt-get -y install \
+            llvm lld \
+            binutils-riscv64-linux-gnu gcc-riscv64-linux-gnu g++-riscv64-linux-gnu libc6-dev-riscv64-cross
+
+      # 下载代码并编译
+      - run: make clone-llvm
+
+      # llvm: linux-riscv64-glibc
+      - run: make build-linux-riscv64-cross
+
+      # 测试运行
+      #- run: llvm-linux-riscv64-glibc/llc --version
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: llvm-linux-riscv64-glibc
+          path: llvm-linux-riscv64-glibc
